@@ -11,6 +11,7 @@ export default function Home() {
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   function generatePassword() {
     const charset = [];
@@ -148,10 +149,26 @@ export default function Home() {
             </div>
             <button
               className="mt-4 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-emerald-600 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 transition-colors"
-              onClick={() => navigator.clipboard.writeText(password)}
+              onClick={() => {
+                navigator.clipboard.writeText(password);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              }}
             >
               Copiar
             </button>
+            <div
+              className={`mt-3 text-sm ${copied ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+              aria-live="polite"
+              role="status"
+            >
+              <span className="inline-flex items-center gap-2 rounded-md bg-emerald-600/20 text-emerald-200 px-3 py-1 ring-1 ring-emerald-500/30">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-7 9a.75.75 0 01-1.127.075l-4-4a.75.75 0 111.06-1.06l3.39 3.389 6.48-8.322a.75.75 0 011.054-.134z" clipRule="evenodd" />
+                </svg>
+                Copiado al portapapeles
+              </span>
+            </div>
           </div>
         </div>
       </section>
